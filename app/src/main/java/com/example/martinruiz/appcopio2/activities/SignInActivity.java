@@ -77,7 +77,6 @@ public class SignInActivity extends AppCompatActivity {
     private void signIn(String sEmail, String sPassword) {
         AppCompatActivity _this = this;
 
-        // [START sign_in_with_email]
         auth.signInWithEmailAndPassword(sEmail, sPassword)
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
@@ -95,13 +94,11 @@ public class SignInActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
 
-                    // [START_EXCLUDE]
                     if (!task.isSuccessful()) {
 
                     }
                 }
             });
-        // [END sign_in_with_email]
     }
 
 }

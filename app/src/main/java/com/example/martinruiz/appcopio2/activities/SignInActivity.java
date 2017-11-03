@@ -38,6 +38,18 @@ public class SignInActivity extends AppCompatActivity {
         initViewComponents();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = auth.getCurrentUser();
+
+        if (currentUser != null) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
+    }
+
     private void initViewComponents(){
         AppCompatActivity _this = this;
 

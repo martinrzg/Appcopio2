@@ -5,6 +5,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.martinruiz.appcopio2.R;
+import com.example.martinruiz.appcopio2.fragments.KitFragment;
+import com.example.martinruiz.appcopio2.fragments.DespensaFragment;
+import com.example.martinruiz.appcopio2.fragments.KitFragment;
 import com.example.martinruiz.appcopio2.fragments.ProfileFragment;
 import com.example.martinruiz.appcopio2.fragments.RegisterFragment;
 import com.example.martinruiz.appcopio2.fragments.StatisticsFragment;
@@ -45,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.frameLayoutContainer,new RegisterFragment()).commit();
                 return true;
             case R.id.navigation_kit:
+                transaction.replace(R.id.frameLayoutContainer,new KitFragment()).commit();
                 return true;
             case R.id.navigation_despensa:
+                transaction.replace(R.id.frameLayoutContainer,new DespensaFragment()).commit();
                 return true;
             case R.id.navigation_stats:
                 transaction.replace(R.id.frameLayoutContainer,new StatisticsFragment()).commit();

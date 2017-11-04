@@ -5,6 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.martinruiz.appcopio2.fragments.RegisterFragment">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewRegister"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
 
 
     <com.github.clans.fab.FloatingActionMenu
@@ -14,7 +21,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:menu_colorNormal="@color/colorAccent">
-
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabBarcode"
             android:layout_width="wrap_content"
@@ -27,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_create_black_24px"
+
             app:fab_label="Manual"/>
     </com.github.clans.fab.FloatingActionMenu>
 

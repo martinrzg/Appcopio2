@@ -11,12 +11,12 @@ public class Product {
     private String type;
     private String category;
     private int quantity;
-    private int photoURl;
+    private String photoURl;
 
     public Product() {
     }
 
-    public Product(String barcode, String name, String type, String category, int quantity, int photoURl) {
+    public Product(String barcode, String name, String type, String category, int quantity, String photoURl) {
         this.barcode = barcode;
         this.name = name;
         this.type = type;
@@ -26,14 +26,13 @@ public class Product {
     }
 
 
-    public int getPhotoURl() {
+    public String getPhotoURl() {
         return photoURl;
     }
 
-    public void setPhotoURl(int photoURl) {
+    public void setPhotoURl(String photoURl) {
         this.photoURl = photoURl;
     }
-
 
     public String getBarcode() {
         return barcode;

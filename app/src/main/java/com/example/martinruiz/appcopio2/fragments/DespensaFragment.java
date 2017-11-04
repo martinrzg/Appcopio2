@@ -4,13 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,10 +16,10 @@ import com.example.martinruiz.appcopio2.R;
  * Activities that contain this fragment must implement the
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link KitFragment#newInstance} factory method to
+ * Use the {@link DespensaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KitFragment extends Fragment {
+public class DespensaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,7 +31,7 @@ public class KitFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public KitFragment() {
+    public DespensaFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +41,11 @@ public class KitFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment KitFragment.
+     * @return A new instance of fragment DespensaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static KitFragment newInstance(String param1, String param2) {
-        KitFragment fragment = new KitFragment();
+    public static DespensaFragment newInstance(String param1, String param2) {
+        DespensaFragment fragment = new DespensaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,7 +56,6 @@ public class KitFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -73,18 +66,7 @@ public class KitFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_kit, container, false);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.tbKit);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setTitle("Kit");
-        return rootView;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_kit,menu);
-        super.onCreateOptionsMenu(menu, inflater);
+        return inflater.inflate(R.layout.fragment_despensa, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -93,7 +75,6 @@ public class KitFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -122,16 +103,5 @@ public class KitFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_registro:
-            break;
-            case R.id.action_kit:
-            break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

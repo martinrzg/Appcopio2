@@ -1,4 +1,4 @@
-package com.example.martinruiz.appcopio2;
+package com.example.martinruiz.appcopio2.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.martinruiz.appcopio2.R;
 import com.example.martinruiz.appcopio2.fragments.RegisterFragment;
 
 import butterknife.ButterKnife;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.martinruiz.appcopio2.activities.MainActivity;
@@ -27,6 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText password;
     private EditText repeatPass;
     private Button create;
+    private TextView link;
 
     /* --- Internal Members --- */
     private FirebaseAuth auth;
@@ -51,10 +53,16 @@ public class SignUpActivity extends AppCompatActivity {
         password = findViewById(R.id.sign_up_password);
         repeatPass = findViewById(R.id.sign_up_repeat_pass);
         create = (Button) findViewById(R.id.sign_up_create);
+        link = (TextView) findViewById(R.id.sign_up_link);
 
         /* Behaviour */
         create.setOnClickListener(v -> {
             registerUser();
+        });
+
+        link.setOnClickListener(v -> {
+            Intent i = new Intent(_this, SignInActivity.class);
+            startActivity(i);
         });
     }
 

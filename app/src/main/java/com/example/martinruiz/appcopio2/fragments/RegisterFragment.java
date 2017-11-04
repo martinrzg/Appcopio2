@@ -46,6 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 import static android.content.ContentValues.TAG;
 
@@ -123,6 +124,21 @@ public class RegisterFragment extends Fragment {
         recyclerViewRegister.setAdapter(adapter);
         recyclerViewRegister.setLayoutManager(layoutManager);
         adapter.startListening();
+
+
+        new MaterialTapTargetPrompt.Builder(getActivity())
+                .setTarget(famAddProduct)
+                .setPrimaryText("Registra un nuevo producto")
+                .setSecondaryText("Presionar para agregar a tu inventario")
+                .setPromptStateChangeListener((prompt, state) -> {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
+                    {
+                        // User has pressed the prompt target
+                    }
+                })
+                .show();
+
+
         return view;
     }
 

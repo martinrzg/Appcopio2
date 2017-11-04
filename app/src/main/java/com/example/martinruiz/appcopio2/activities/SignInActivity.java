@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.martinruiz.appcopio2.activities.MainActivity;
@@ -23,7 +24,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private Button signIn;
-    private Button signUp;
+    private TextView signUp;
 
     /* --- Internal Members --- */
     private FirebaseAuth auth;
@@ -57,7 +58,7 @@ public class SignInActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.login_et_email);
         password = (EditText) findViewById(R.id.login_et_password);
         signIn = (Button) findViewById(R.id.login_btn_signin);
-        signUp = (Button) findViewById(R.id.login_btn_signup);
+        signUp = (TextView) findViewById(R.id.login_btn_signup);
 
         /* Behaviour */
         signIn.setOnClickListener( v -> {

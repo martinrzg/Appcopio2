@@ -10,6 +10,7 @@ import com.example.martinruiz.appcopio2.fragments.DespensaFragment;
 import com.example.martinruiz.appcopio2.fragments.KitFragment;
 import com.example.martinruiz.appcopio2.fragments.ProfileFragment;
 import com.example.martinruiz.appcopio2.fragments.RegisterFragment;
+import com.example.martinruiz.appcopio2.fragments.StatisticsFragment;
 
 import butterknife.ButterKnife;
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.frameLayoutContainer,new DespensaFragment()).commit();
                 return true;
             case R.id.navigation_stats:
+                transaction.replace(R.id.frameLayoutContainer,new StatisticsFragment()).commit();
                 return true;
             case R.id.navigation_profile:
                 transaction.replace(R.id.frameLayoutContainer,new ProfileFragment()).commit();

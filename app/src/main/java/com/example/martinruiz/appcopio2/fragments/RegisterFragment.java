@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
@@ -15,22 +16,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.martinruiz.appcopio2.DatabaseCRUD;
+import com.example.martinruiz.appcopio2.DummyData;
 import com.example.martinruiz.appcopio2.R;
 import com.example.martinruiz.appcopio2.activities.BarcodeCaptureActivity;
+import com.example.martinruiz.appcopio2.activities.MainActivity;
+import com.example.martinruiz.appcopio2.model.CollectionCenters;
+import com.example.martinruiz.appcopio2.model.CollectionCentersInfo;
+import com.example.martinruiz.appcopio2.model.Product;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.nio.MappedByteBuffer;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RegisterFragment extends Fragment {
+
+    DatabaseReference mDatabase;
 
     private static final int RC_BARCODE_CAPTURE = 9001;
 
@@ -47,6 +66,8 @@ public class RegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this,view);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         return view;
     }
@@ -72,7 +93,10 @@ public class RegisterFragment extends Fragment {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                    showDialogAddProduct("Agregar producto","Indique la cantidad", 0);
+                    showDialogAddProduct("Agregar producto","Indique la cantidad", 0, barcode.displayValue);
+
+
+
                     Toast.makeText(getActivity(), barcode.displayValue, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "No barcode captured", Toast.LENGTH_SHORT).show();
@@ -86,7 +110,7 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-    private void showDialogAddProduct(String title, String message, int id){
+    private void showDialogAddProduct(String title, String message, int id, String barcode){
         final AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setPositiveButton("Agregar",null)
                 .setNegativeButton("Cancelar",null)
@@ -106,7 +130,50 @@ public class RegisterFragment extends Fragment {
             Button buttonNegative = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
             buttonPositive.setOnClickListener(view -> {
                 dialog.dismiss();
-                //TODO save to database
+                mDatabase.child("userIdDummy").child("CollectionCenters").child(MainActivity.collectionCenterId).addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // Get BoardContent value
+                                CollectionCentersInfo collectionCentersInfo = dataSnapshot.getValue(CollectionCentersInfo.class);
+
+                                Product product = new Product();
+                                if (collectionCentersInfo == null) {
+                                    // Note is null, error out
+                                    //If id is wrong could get this
+                                    Log.e(TAG, "CollectionCentersInfo is unexpectedly null");
+                                } else {
+                                    //Send the data to add the note ot the database.
+                                    Map<String, Product> map = collectionCentersInfo.getProducts();
+                                    if(map !=null) {
+
+                                        if (map.containsKey(barcode)) {
+                                            product =  map.get(barcode);
+
+                                            product.setQuantity(product.getQuantity() + Integer.parseInt(editTextProductQty.getText().toString()));
+                                        }else {
+                                            Map<String, Product> dummy = DummyData.getDummyData();
+                                            product = dummy.get(barcode);
+                                            product.setQuantity(Integer.parseInt(editTextProductQty.getText().toString()));
+                                            map.put(barcode,product);
+                                        }
+
+                                    }else {
+                                        Map<String, Product> dummy = DummyData.getDummyData();
+                                        product = (Product)dummy.get(barcode);
+                                        product.setQuantity(Integer.parseInt(editTextProductQty.getText().toString()));
+                                    }
+                                    DatabaseCRUD.creteProduct(mDatabase.child("userIdDummy"),product, MainActivity.collectionCenterId);
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.w(TAG, "getPost:onCancelled", databaseError.toException());
+
+                            }
+                        });
 
             });
             buttonNegative.setOnClickListener(view -> {dialog.dismiss();});

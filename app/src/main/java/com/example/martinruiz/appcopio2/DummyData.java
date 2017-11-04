@@ -11,11 +11,12 @@ import java.util.Map;
 
 public class DummyData {
 
-    public Map<String, Object> getDummyData() {
-        Product product = new Product("7622210099655", "Oreo", "Galletas", "alimentos", 2, R.mipmap.oreo);
-
-        Map<String, Object> dummyData = new HashMap<>();
+    public static Map<String, Product> getDummyData() {
+        Product product = new Product("7622210099655", "Oreo","Galletas", "alimentos",0, R.mipmap.oreo);
+        Product product2 = new Product("097339000061", "Valentina","Salsa", "alimentos",0, R.mipmap.oreo);
+        Map<String, Product> dummyData = new HashMap<>();
         dummyData.put("7622210099655", product);
+        dummyData.put("097339000061",product2);
 
         return dummyData;
     }

@@ -10,12 +10,12 @@ public class CollectionCentersInfo {
 
     private String id;
     private String location;
-    private Map<String, Object> products;
+    private Map<String, Product> products;
 
     public CollectionCentersInfo() {
     }
 
-    public CollectionCentersInfo(String location, Map<String, Object> products) {
+    public CollectionCentersInfo(String location, Map<String, Product> products) {
         this.location = location;
         this.products = products;
     }
@@ -36,11 +36,11 @@ public class CollectionCentersInfo {
         this.location = location;
     }
 
-    public Map<String, Object> getProducts() {
+    public Map<String, Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Map<String, Object> products) {
+    public void setProducts(Map<String, Product> products) {
         this.products = products;
     }
 }

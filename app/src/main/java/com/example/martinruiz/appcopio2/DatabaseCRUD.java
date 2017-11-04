@@ -102,7 +102,7 @@ public class DatabaseCRUD {
         if (collectionCentersInfo.getProducts() == null) {
 
 
-            Map<String, Object> products = new HashMap();                            //If the product is empty initialize the HashMap for the notes.
+            Map<String, Product> products = new HashMap();                            //If the product is empty initialize the HashMap for the notes.
             products.put(product.getBarcode(), product);                                                 //Add th new product to the HashMap
             collectionCentersInfo.setProducts(products);                                         //Add the product HashMap to the boardContent
             mDatabase.child(PARENT).child(collectionCenterId).setValue(collectionCentersInfo);      //Update the data of the database

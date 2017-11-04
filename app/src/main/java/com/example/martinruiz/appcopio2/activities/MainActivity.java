@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String collectionCenterId = "-Ky3LNUPgnxn0y1MN2t2";
 
 
     @Override
@@ -38,23 +39,23 @@ public class MainActivity extends AppCompatActivity {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-                switch (item.getItemId()) {
-                    case R.id.navigation_register:
-                        transaction.replace(R.id.frameLayoutContainer,new RegisterFragment()).commit();
-                        return true;
-                    case R.id.navigation_kit:
-                        return true;
-                    case R.id.navigation_despensa:
-                        return true;
-                    case R.id.navigation_stats:
-                            return true;
-                    case R.id.navigation_profile:
-                        transaction.replace(R.id.frameLayoutContainer,new ProfileFragment()).commit();
+        switch (item.getItemId()) {
+            case R.id.navigation_register:
+                transaction.replace(R.id.frameLayoutContainer,new RegisterFragment()).commit();
+                return true;
+            case R.id.navigation_kit:
+                return true;
+            case R.id.navigation_despensa:
+                return true;
+            case R.id.navigation_stats:
+                return true;
+            case R.id.navigation_profile:
+                transaction.replace(R.id.frameLayoutContainer,new ProfileFragment()).commit();
 
-                        return true;
+                return true;
 
-                }
-                return false;
-            };
+        }
+        return false;
+    };
 
 }

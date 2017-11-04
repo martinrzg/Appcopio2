@@ -85,9 +85,11 @@ public class RegisterFragment extends Fragment {
                 .child("products")
                 .limitToLast(50);
 
+
         options = new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(query, Product.class)
                         .build();
+
 
         adapter = new FirebaseRecyclerAdapter<Product,ProductViewHolder>(options) {
 
@@ -102,6 +104,7 @@ public class RegisterFragment extends Fragment {
             @Override
             protected void onBindViewHolder(ProductViewHolder holder, int position, Product model) {
                 holder.textView.setText(model.getName());
+                holder.textViewQty.setText("#"+model.getQuantity());
             }
         };
 
@@ -150,8 +153,11 @@ public class RegisterFragment extends Fragment {
         }
     };
 
-
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
     @Override
     public void onResume() {
@@ -166,8 +172,6 @@ public class RegisterFragment extends Fragment {
     }
 
 
-
-
     @OnClick(R.id.fabBarcode)
     public void fabBarcodeScanner(){
 
@@ -179,8 +183,6 @@ public class RegisterFragment extends Fragment {
         startActivityForResult(intent, RC_BARCODE_CAPTURE);
 
     }
-
-
 
 
     @Override
@@ -311,10 +313,7 @@ public class RegisterFragment extends Fragment {
 
                     }
                 });
-
-
     }
-
 
     @OnClick(R.id.fabManual)
     public void fabManual() {

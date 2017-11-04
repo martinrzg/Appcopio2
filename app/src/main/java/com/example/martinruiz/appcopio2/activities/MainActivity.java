@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private android.support.v4.app.FragmentManager fragmentManager;
     private android.support.v4.app.FragmentTransaction transaction;
+    public static String collectionCenterId = "-Ky3LNUPgnxn0y1MN2t2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

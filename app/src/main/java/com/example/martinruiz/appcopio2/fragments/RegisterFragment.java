@@ -5,9 +5,10 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,20 +22,23 @@ import com.example.martinruiz.appcopio2.DummyData;
 import com.example.martinruiz.appcopio2.R;
 import com.example.martinruiz.appcopio2.activities.BarcodeCaptureActivity;
 import com.example.martinruiz.appcopio2.activities.MainActivity;
-import com.example.martinruiz.appcopio2.model.CollectionCenters;
 import com.example.martinruiz.appcopio2.model.CollectionCentersInfo;
 import com.example.martinruiz.appcopio2.model.Product;
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.nio.MappedByteBuffer;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -52,8 +56,16 @@ public class RegisterFragment extends Fragment {
     DatabaseReference mDatabase;
 
     private static final int RC_BARCODE_CAPTURE = 9001;
-
     @BindView(R.id.famAddProduct) FloatingActionMenu famAddProduct;
+    @BindView(R.id.recyclerViewRegister) RecyclerView recyclerViewRegister;
+    RecyclerView.LayoutManager layoutManager;
+
+    private FirebaseRecyclerAdapter adapter;
+    private FirebaseRecyclerOptions<Product> options;
+    private Query query;
+
+
+
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -68,9 +80,96 @@ public class RegisterFragment extends Fragment {
         ButterKnife.bind(this,view);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+         query= FirebaseDatabase.getInstance()
+                .getReference()
+                .child("userIdDummy").child("CollectionCenters").child(MainActivity.collectionCenterId)
+                .child("products")
+                .limitToLast(50);
+
+        options = new FirebaseRecyclerOptions.Builder<Product>()
+                        .setQuery(query, Product.class)
+                        .build();
+
+        adapter = new FirebaseRecyclerAdapter<Product,ProductViewHolder>(options) {
+
+            @Override
+            public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_product, parent, false);
+
+                return new ProductViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(ProductViewHolder holder, int position, Product model) {
+                holder.textView.setText(model.getName());
+            }
+        };
+
+
+
+        query.addChildEventListener(childEventListener);
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerViewRegister.setAdapter(adapter);
+        recyclerViewRegister.setLayoutManager(layoutManager);
 
         return view;
     }
+
+    public static class ProductViewHolder extends RecyclerView.ViewHolder{
+        public  TextView textView, textViewQty;
+        public ProductViewHolder(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.textViewItemName);
+            textViewQty  = itemView.findViewById(R.id.textViewQty);
+        }
+    }
+
+
+    ChildEventListener childEventListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+            // ...
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+            // ...
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            // ...
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+            // ...
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            // ...
+        }
+    };
+
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        adapter.stopListening();
+
+    }
+
+
+
 
     @OnClick(R.id.fabBarcode)
     public void fabBarcodeScanner(){
@@ -188,4 +287,8 @@ public class RegisterFragment extends Fragment {
     public void fabManual() {
 
     }
+
+
+
+
 }

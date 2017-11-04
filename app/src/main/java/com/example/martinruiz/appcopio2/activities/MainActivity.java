@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.martinruiz.appcopio2.R;
 import com.example.martinruiz.appcopio2.fragments.ProfileFragment;
 import com.example.martinruiz.appcopio2.fragments.RegisterFragment;
+import com.example.martinruiz.appcopio2.fragments.StatisticsFragment;
 
 import butterknife.ButterKnife;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.navigation_despensa:
                 return true;
             case R.id.navigation_stats:
+                transaction.replace(R.id.frameLayoutContainer,new StatisticsFragment()).commit();
                 return true;
             case R.id.navigation_profile:
                 transaction.replace(R.id.frameLayoutContainer,new ProfileFragment()).commit();

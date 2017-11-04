@@ -304,7 +304,7 @@ public class RegisterFragment extends Fragment {
 
 
                         }else{
-                            //TODO: AGREGAR NUEVO PRODUCTO
+                            Toast.makeText(getContext(), "Producto no registrado favor de registrarlo", Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override

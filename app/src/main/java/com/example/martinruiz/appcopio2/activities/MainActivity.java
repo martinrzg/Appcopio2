@@ -47,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.frameLayoutContainer,new RegisterFragment()).commit();
                 return true;
             case R.id.navigation_kit:
+                transaction.replace(R.id.frameLayoutContainer,new KitFragment()).commit();
                 return true;
             case R.id.navigation_despensa:
+                transaction.replace(R.id.frameLayoutContainer,new DespensaFragment()).commit();
                 return true;
             case R.id.navigation_stats:
                 return true;

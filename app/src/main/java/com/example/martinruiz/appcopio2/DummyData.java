@@ -17,7 +17,6 @@ public class DummyData {
         Map<String, Product> dummyData = new HashMap<>();
         dummyData.put("7622210099655", product);
         dummyData.put("097339000061",product2);
-
         return dummyData;
     }
 }

@@ -24,7 +24,6 @@ import com.example.martinruiz.appcopio2.activities.BarcodeCaptureActivity;
 import com.example.martinruiz.appcopio2.activities.MainActivity;
 import com.example.martinruiz.appcopio2.model.CollectionCentersInfo;
 import com.example.martinruiz.appcopio2.model.Product;
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.clans.fab.FloatingActionMenu;
@@ -80,7 +79,7 @@ public class RegisterFragment extends Fragment {
         ButterKnife.bind(this,view);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-         query= FirebaseDatabase.getInstance()
+        query= FirebaseDatabase.getInstance()
                 .getReference()
                 .child("userIdDummy").child("CollectionCenters").child(MainActivity.collectionCenterId)
                 .child("products")
@@ -106,13 +105,11 @@ public class RegisterFragment extends Fragment {
             }
         };
 
-
-
         query.addChildEventListener(childEventListener);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerViewRegister.setAdapter(adapter);
         recyclerViewRegister.setLayoutManager(layoutManager);
-
+        adapter.startListening();
         return view;
     }
 
@@ -159,13 +156,13 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        adapter.startListening();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         adapter.stopListening();
-
     }
 
 

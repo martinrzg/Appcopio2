@@ -1,5 +1,6 @@
 package com.example.martinruiz.appcopio2.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GenerateQR extends AppCompatActivity {
 
     @BindView(R.id.qrImage) ImageView qrImage;
+    String data = "qwerty";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,7 @@ public class GenerateQR extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        QRGEncoder qrgEncoder = new QRGEncoder("qwerty", null, QRGContents.Type.TEXT, 1200);
+        QRGEncoder qrgEncoder = new QRGEncoder(data, null, QRGContents.Type.TEXT, 800);
         try {
             // Getting QR-Code as Bitmap
             Bitmap bitmap = qrgEncoder.encodeAsBitmap();
@@ -36,6 +39,16 @@ public class GenerateQR extends AppCompatActivity {
         } catch (WriterException e) {
 
         }
-
     }
+
+    @OnClick(R.id.share)
+    public void share(){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, data);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+
+
 }

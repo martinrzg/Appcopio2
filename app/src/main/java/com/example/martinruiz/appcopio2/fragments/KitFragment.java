@@ -1,6 +1,7 @@
 package com.example.martinruiz.appcopio2.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.martinruiz.appcopio2.R;
+import com.example.martinruiz.appcopio2.activities.BarcodeCaptureActivity;
+import com.example.martinruiz.appcopio2.activities.GenerateQR;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 
 
 /**
@@ -30,10 +36,14 @@ public class KitFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int RC_BARCODE_CAPTURE = 9001;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,6 +79,8 @@ public class KitFragment extends Fragment {
         }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,6 +98,8 @@ public class KitFragment extends Fragment {
         inflater.inflate(R.menu.menu_kit,menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -125,11 +139,39 @@ public class KitFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RC_BARCODE_CAPTURE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    Toast.makeText(getActivity(), barcode.displayValue, Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getActivity(), "No QR Code captured", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_registro:
+                Intent intent = new Intent(getActivity(), GenerateQR.class);
+                startActivity(intent);
             break;
             case R.id.action_kit:
+                Intent intent2 = new Intent(getActivity(), BarcodeCaptureActivity.class);
+                intent2.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                intent2.putExtra(BarcodeCaptureActivity.UseFlash, false);
+                startActivityForResult(intent2, RC_BARCODE_CAPTURE);
             break;
         }
         return super.onOptionsItemSelected(item);

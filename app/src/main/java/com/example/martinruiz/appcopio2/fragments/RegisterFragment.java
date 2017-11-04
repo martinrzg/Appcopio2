@@ -207,75 +207,111 @@ public class RegisterFragment extends Fragment {
     }
 
     private void showDialogAddProduct(String title, String message, int id, String barcode){
-        final AlertDialog dialog = new AlertDialog.Builder(getContext())
-                .setPositiveButton("Agregar",null)
-                .setNegativeButton("Cancelar",null)
-                .create();
-        if(title != null) dialog.setTitle(title);
-        if(message != null) dialog.setMessage(message);
-        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_product,null);
-        dialog.setView(viewInflated);
-        ImageView imageViewPreviewProduct = viewInflated.findViewById(R.id.imageViewPreviewProduct);
-        TextView textViewProductName = viewInflated.findViewById(R.id.textViewProductName);
-        EditText editTextProductQty = viewInflated.findViewById(R.id.editTextProductQty);
-        String url = "https://www.sams.com.mx/images/product-images/img_medium/000805011m.jpg";
-        Picasso.with(getActivity()).load(url).transform(new CropCircleTransformation()).into(imageViewPreviewProduct);
 
-        dialog.setOnShowListener(dialogInterface -> {
-            Button buttonPositive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            Button buttonNegative = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-            buttonPositive.setOnClickListener(view -> {
-                dialog.dismiss();
-                mDatabase.child("userIdDummy").child("CollectionCenters").child(MainActivity.collectionCenterId).addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                // Get BoardContent value
-                                CollectionCentersInfo collectionCentersInfo = dataSnapshot.getValue(CollectionCentersInfo.class);
-
-                                Product product = new Product();
-                                if (collectionCentersInfo == null) {
-                                    // Note is null, error out
-                                    //If id is wrong could get this
-                                    Log.e(TAG, "CollectionCentersInfo is unexpectedly null");
-                                } else {
-                                    //Send the data to add the note ot the database.
-                                    Map<String, Product> map = collectionCentersInfo.getProducts();
-                                    if(map !=null) {
-
-                                        if (map.containsKey(barcode)) {
-                                            product =  map.get(barcode);
-
-                                            product.setQuantity(product.getQuantity() + Integer.parseInt(editTextProductQty.getText().toString()));
-                                        }else {
-                                            Map<String, Product> dummy = DummyData.getDummyData();
-                                            product = dummy.get(barcode);
-                                            product.setQuantity(Integer.parseInt(editTextProductQty.getText().toString()));
-                                            map.put(barcode,product);
-                                        }
-
-                                    }else {
-                                        Map<String, Product> dummy = DummyData.getDummyData();
-                                        product = (Product)dummy.get(barcode);
-                                        product.setQuantity(Integer.parseInt(editTextProductQty.getText().toString()));
-                                    }
-                                    DatabaseCRUD.creteProduct(mDatabase.child("userIdDummy"),product, MainActivity.collectionCenterId);
-                                }
+        mDatabase.child("userIdDummy").child("CollectionCenters").child(MainActivity.collectionCenterId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        CollectionCentersInfo collectionCentersInfo = dataSnapshot.getValue(CollectionCentersInfo.class);
+                        Boolean hasMap;
+                        if(collectionCentersInfo.getProducts() != null){
+                            hasMap = true;
+                        }else {
+                            hasMap = false;
+                        }
+                        if(hasMap || DummyData.getDummyData().get(barcode) != null)
+                        {
+                            Product product;
+                            if(collectionCentersInfo.getProducts().containsKey(barcode)) {
+                                 product = collectionCentersInfo.getProducts().get(barcode);
+                                Log.d(TAG, "Entra normal.");
+                            }else {
+                                product = DummyData.getDummyData().get(barcode);
+                                Log.d(TAG, "Entra dummy.");
 
                             }
+                            final AlertDialog dialog = new AlertDialog.Builder(getContext())
+                                    .setPositiveButton("Agregar",null)
+                                    .setNegativeButton("Cancelar",null)
+                                    .create();
+                            if(title != null) dialog.setTitle(title);
+                            if(message != null) dialog.setMessage(message);
+                            View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_product,null);
+                            dialog.setView(viewInflated);
+                            ImageView imageViewPreviewProduct = viewInflated.findViewById(R.id.imageViewPreviewProduct);
+                            TextView textViewProductName = viewInflated.findViewById(R.id.textViewProductName);
+                            EditText editTextProductQty = viewInflated.findViewById(R.id.editTextProductQty);
+                            textViewProductName.setText(product.getName());
+                            Picasso.with(getActivity()).load(product.getPhotoURl()).transform(new CropCircleTransformation()).into(imageViewPreviewProduct);
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.w(TAG, "getPost:onCancelled", databaseError.toException());
+                            dialog.setOnShowListener(dialogInterface -> {
+                                Button buttonPositive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                Button buttonNegative = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                                buttonPositive.setOnClickListener(view -> {
+                                    dialog.dismiss();
+                                    mDatabase.child("userIdDummy").child("CollectionCenters").child(MainActivity.collectionCenterId).addListenerForSingleValueEvent(
+                                            new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    // Get BoardContent value
+                                                    CollectionCentersInfo collectionCentersInfo = dataSnapshot.getValue(CollectionCentersInfo.class);
 
-                            }
-                        });
+                                                    Product product = new Product();
+                                                    if (collectionCentersInfo == null) {
+                                                        // Note is null, error out
+                                                        //If id is wrong could get this
+                                                        Log.e(TAG, "CollectionCentersInfo is unexpectedly null");
+                                                    } else {
+                                                        //Send the data to add the note ot the database.
+                                                        Map<String, Product> map = collectionCentersInfo.getProducts();
+                                                        if(map !=null) {
 
-            });
-            buttonNegative.setOnClickListener(view -> {dialog.dismiss();});
-        });
-        dialog.create();
-        dialog.show();
+                                                            if (map.containsKey(barcode)) {
+                                                                product =  map.get(barcode);
+
+                                                                product.setQuantity(product.getQuantity() + Integer.parseInt(editTextProductQty.getText().toString()));
+                                                            }else {
+                                                                Map<String, Product> dummy = DummyData.getDummyData();
+                                                                product = dummy.get(barcode);
+                                                                product.setQuantity(Integer.parseInt(editTextProductQty.getText().toString()));
+                                                                map.put(barcode,product);
+                                                            }
+
+                                                        }else {
+                                                            Map<String, Product> dummy = DummyData.getDummyData();
+                                                            product = dummy.get(barcode);
+                                                            product.setQuantity(Integer.parseInt(editTextProductQty.getText().toString()));
+                                                        }
+                                                        DatabaseCRUD.creteProduct(mDatabase.child("userIdDummy"),product, MainActivity.collectionCenterId);
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+                                                    Log.w(TAG, "getPost:onCancelled", databaseError.toException());
+
+                                                }
+                                            });
+
+                                });
+                                buttonNegative.setOnClickListener(view -> {dialog.dismiss();});
+                            });
+                            dialog.create();
+                            dialog.show();
+
+
+                        }else{
+                            //TODO: AGREGAR NUEVO PRODUCTO
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getPost:onCancelled", databaseError.toException());
+
+                    }
+                });
+
 
     }
 

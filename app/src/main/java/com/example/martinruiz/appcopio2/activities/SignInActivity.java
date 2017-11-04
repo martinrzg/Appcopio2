@@ -62,8 +62,8 @@ public class SignInActivity extends AppCompatActivity {
         /* Behaviour */
         signIn.setOnClickListener( v -> {
             // Auth
-            String sEmail = email.getText().toString();
-            String sPass = password.getText().toString();
+            String sEmail = email.getText().toString().trim();
+            String sPass = password.getText().toString().trim();
             signIn(sEmail, sPass);
         });
 

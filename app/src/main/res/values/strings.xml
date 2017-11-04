@@ -15,4 +15,20 @@
     <string name="barcode_success">Barcode read successfully</string>
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
+
+    <string name="text_favorites">Favorites</string>
+    <string name="text_schedules">Schedules</string>
+    <string name="text_music">Music</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="categories_array">
+        <item>Comida</item>
+        <item>Higiene personal</item>
+        <item>Limpieza</item>
+    </string-array>
+
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
 </resources>

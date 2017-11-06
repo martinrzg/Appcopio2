@@ -17,11 +17,13 @@ public class DummyData {
         Product product3 = new Product("7501055332175", "Coca-cola","Refresco", "alimentos",0,"http://1vze7o2h8a2b2tyahl3i0t68.wpengine.netdna-cdn.com/wp-content/uploads/2015/09/chronology10.jpg");
         Product product4 = new Product("7501013122039", "Jumex mango","Jugo", "alimentos",0,"https://www.dollartree.com/assets/product_images_2016/styles/xlarge/107938.jpg");
 
+        Product product5 = new Product("7502223775008", "Karo Maple","Miel", "alimentos",0,"http://4.bp.blogspot.com/_IXvn2K5fi28/TIPhSYpFCMI/AAAAAAAAAFQ/dRmJtKoc-hY/s1600/Karo+Maple+Syrup.JPG");
         Map<String, Product> dummyData = new HashMap<>();
         dummyData.put("7622210099655", product);
         dummyData.put("097339000061",product2);
         dummyData.put("7501055332175",product3);
         dummyData.put("7501013122039",product4);
+        dummyData.put("7502223775008",product5);
         return dummyData;
     }
 }

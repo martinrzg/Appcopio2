@@ -30,6 +30,9 @@
             android:name=".activities.SignUpActivity"
             android:theme="@style/NoTitle"></activity>
         <activity
+            android:name=".activities.GenerateQR"
+            android:theme="@style/NoTitle"></activity>
+        <activity
             android:name=".activities.BarcodeCaptureActivity"
             android:label="Read Barcode" />
         <activity android:name=".activities.WelcomeActivity">

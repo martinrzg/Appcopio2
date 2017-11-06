@@ -279,4 +279,16 @@ public class KitFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        adapter.stopListening();
+    }
+
 }

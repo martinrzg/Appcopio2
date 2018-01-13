@@ -97,7 +97,8 @@ public class RegisterFragment extends Fragment {
                 .limitToLast(50);
 
 
-        options = new FirebaseRecyclerOptions.Builder<Product>()
+        FirebaseRecyclerOptions<Product> options =
+                new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(query, Product.class)
                         .build();
 
@@ -119,7 +120,6 @@ public class RegisterFragment extends Fragment {
             }
         };
 
-        query.addChildEventListener(childEventListener);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerViewRegister.setAdapter(adapter);
         recyclerViewRegister.setLayoutManager(layoutManager);
@@ -152,32 +152,7 @@ public class RegisterFragment extends Fragment {
     }
 
 
-    ChildEventListener childEventListener = new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-            // ...
-        }
 
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-            // ...
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-            // ...
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-            // ...
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            // ...
-        }
-    };
 
     @Override
     public void onStart() {

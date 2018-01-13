@@ -3,10 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.martinruiz.appcopio.fragments.RegisterFragment">
+    tools:context="com.example.martinruiz.appcopio2.fragments.RegisterFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tbRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:titleTextColor="@color/white"
+            >
 
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewRegister"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="62dp">
+
+    </android.support.v7.widget.RecyclerView>
 
 
 
@@ -16,24 +39,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:menu_colorNormal="@color/colorAccent"
-        >
-
+        app:menu_colorNormal="@color/colorAccent">
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabBarcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_barcode"
-            app:fab_label="Bar Code"/>
-
+            app:fab_label="Bar Code"
+            />
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabManual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_create_black_24px"
+
             app:fab_label="Manual"/>
-
-
     </com.github.clans.fab.FloatingActionMenu>
 
 
